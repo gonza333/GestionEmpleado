@@ -1,0 +1,35 @@
+﻿@page
+@model GestionEmpleados.Pages.EditModel
+
+<h2>Editar Empleado</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="Nombre">Nombre</label>
+        <input asp-for="Empleado.Nombre" class="form-control" id="Nombre" required />
+        <span asp-validation-for="Empleado.Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Correo">Correo</label>
+        <input asp-for="Empleado.Correo" class="form-control" id="Correo" required />
+        <span asp-validation-for="Empleado.Correo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="FechaIngreso">Fecha de Ingreso</label>
+        <input asp-for="Empleado.FechaIngreso" class="form-control" id="FechaIngreso" required />
+        <span asp-validation-for="Empleado.FechaIngreso" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Departamento">Departamento</label>
+        <input asp-for="Empleado.Departamento" class="form-control" id="Departamento" required />
+        <span asp-validation-for="Empleado.Departamento" class="text-danger"></span>
+    </div>
+
+    <!-- El campo Id debe estar en el formulario -->
+    <input type="hidden" asp-for="Empleado.Id" />
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>

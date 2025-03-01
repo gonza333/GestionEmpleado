@@ -1,0 +1,77 @@
+﻿@page
+@model GestionEmpleados.Pages.IndexModel
+
+<h2>Lista de Empleados</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Fecha de Ingreso</th>
+            <th>Departamento</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var empleado in Model.Empleados)
+        {
+            <tr>
+                <td>@empleado.Nombre</td>
+                <td>@empleado.Correo</td>
+                <td>@empleado.FechaIngreso.ToString("dd/MM/yyyy")</td>
+                <td>@empleado.Departamento</td>
+                <td>
+                    <a href="/Edit?id=@empleado.Id" class="btn btn-success">Editar</a> |
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDeleteModal" data-id="@empleado.Id" data-nombre="@empleado.Nombre">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/Create" class="btn btn-success">Nuevo Empleado</a>
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmar Eliminación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar el empleado <strong id="employeeName"></strong>?
+            </div>
+            <div class="modal-footer">
+                <form id="deleteForm" method="post" asp-page="/Index" style="display:inline;">
+                    <input type="hidden" id="employeeId" name="id" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts necesarios para manejar el modal -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    // Manejar la apertura del modal
+    $('#confirmDeleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('id');
+        var nombre = button.data('nombre');
+
+        var modal = $(this);
+        modal.find('.modal-body #employeeName').text(nombre);
+        modal.find('.modal-footer #employeeId').val(id);
+    });
+</script>
